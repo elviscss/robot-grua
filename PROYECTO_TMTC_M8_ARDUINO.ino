@@ -4,7 +4,7 @@ Servo ServoBrazo;
 int EjeBase = 90;
 int EjeBrazo = 30;
 byte PosicionEje;
-int PasosServo = 15;
+int PasosServo = 10;
 int LedEstado = 7;
 
 void setup() {
@@ -20,21 +20,29 @@ void setup() {
 void loop() {
   if (Serial.available()) {
     PosicionEje = Serial.read();
-    if (PosicionEje == 'W') { 
+    if (PosicionEje == 'W') {
       EjeBrazo += PasosServo;
       ServoBrazo.write(EjeBrazo);
+      Serial.println(EjeBrazo);
     } else if (PosicionEje == 'S') {
       EjeBrazo -= PasosServo;
       ServoBrazo.write(EjeBrazo);
+      Serial.println(EjeBrazo);
     } else if (PosicionEje == 'A') {
       EjeBase += PasosServo;
       ServoBase.write(EjeBase);
+      Serial.println(EjeBase);
     } else if (PosicionEje == 'D') {
       EjeBase -= PasosServo;
       ServoBase.write(EjeBase);
+      Serial.println(EjeBase);
     } else if (PosicionEje == 'R') {
+      EjeBase = 90;
+      EjeBrazo = 30;
       ServoBase.write(90);
       ServoBrazo.write(30);
+      Serial.println(EjeBrazo);
+      Serial.print(EjeBase);
     }
     if (PosicionEje == 'P') {
       ServoBase.write(90);
