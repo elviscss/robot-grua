@@ -3,9 +3,12 @@ Servo ServoBase;
 Servo ServoBrazo;
 int EjeBase = 90;
 int EjeBrazo = 30;
-byte PosicionEje;
+byte Dato;
 int PasosServo = 10;
 int LedEstado = 7;
+int LedLinternaUno = 9;
+int LedLinternaDos = 10;
+int AlarmaEmergencia = 12;
 
 void setup() {
   Serial.begin(9600);
@@ -15,28 +18,31 @@ void setup() {
   ServoBrazo.write(EjeBrazo);
   pinMode(LedEstado, OUTPUT);
   digitalWrite(LedEstado, HIGH);
+  pinMode(LedLinternaUno, OUTPUT);
+  pinMode(LedLinternaDos, OUTPUT);
+  pinMode(AlarmaEmergencia, OUTPUT);
 }
 
 void loop() {
   if (Serial.available()) {
-    PosicionEje = Serial.read();
-    if (PosicionEje == 'W') {
+    Dato = Serial.read();
+    if (Dato == 'W') {
       EjeBrazo += PasosServo;
       ServoBrazo.write(EjeBrazo);
       Serial.println(EjeBrazo);
-    } else if (PosicionEje == 'S') {
+    } else if (Dato == 'S') {
       EjeBrazo -= PasosServo;
       ServoBrazo.write(EjeBrazo);
       Serial.println(EjeBrazo);
-    } else if (PosicionEje == 'A') {
+    } else if (Dato == 'A') {
       EjeBase += PasosServo;
       ServoBase.write(EjeBase);
       Serial.println(EjeBase);
-    } else if (PosicionEje == 'D') {
+    } else if (Dato == 'D') {
       EjeBase -= PasosServo;
       ServoBase.write(EjeBase);
       Serial.println(EjeBase);
-    } else if (PosicionEje == 'R') {
+    } else if (Dato == 'R') {
       EjeBase = 90;
       EjeBrazo = 30;
       ServoBase.write(90);
@@ -44,11 +50,19 @@ void loop() {
       Serial.println(EjeBrazo);
       Serial.print(EjeBase);
     }
-    if (PosicionEje == 'P') {
+    if (Dato == 'P') {
       ServoBase.write(90);
       ServoBrazo.write(30);
       digitalWrite(LedEstado, LOW);
-      delay(1000);
+      delay(500);
+      digitalWrite(LedEstado, HIGH);
+      delay(500);
+      digitalWrite(LedEstado, LOW);
+      delay(500);
+      digitalWrite(LedEstado, HIGH);
+      delay(500);
+      digitalWrite(LedEstado, LOW);
+      delay(500);
       digitalWrite(LedEstado, HIGH);
       delay(1000);
       ServoBase.write(85);
@@ -60,6 +74,7 @@ void loop() {
       ServoBase.write(70);
       delay(50);
       ServoBase.write(65);
+      Serial.println(65);
       delay(250);
       ServoBrazo.write(25);
       delay(50);
@@ -68,6 +83,7 @@ void loop() {
       ServoBrazo.write(15);
       delay(50);
       ServoBrazo.write(10);
+      Serial.println(10);
       delay(250);
       ServoBase.write(70);
       delay(50);
@@ -80,6 +96,7 @@ void loop() {
       ServoBase.write(90);
       delay(50);
       ServoBase.write(95);
+      Serial.println(95);
       delay(250);
       ServoBrazo.write(15);
       delay(50);
@@ -104,6 +121,7 @@ void loop() {
       ServoBrazo.write(65);
       delay(50);
       ServoBrazo.write(70);
+      Serial.println(70);
       delay(250);
       ServoBase.write(95);
       delay(50);
@@ -140,18 +158,7 @@ void loop() {
       ServoBase.write(175);
       delay(50);
       ServoBase.write(180);
-      delay(250);
-      digitalWrite(LedEstado, LOW);
-      delay(500);
-      digitalWrite(LedEstado, HIGH);
-      delay(500);
-      digitalWrite(LedEstado, LOW);
-      delay(500);
-      digitalWrite(LedEstado, HIGH);
-      delay(500);
-      digitalWrite(LedEstado, LOW);
-      delay(500);
-      digitalWrite(LedEstado, HIGH);
+      Serial.println(180);
       delay(250);
       ServoBrazo.write(65);
       delay(50);
@@ -176,18 +183,7 @@ void loop() {
       ServoBrazo.write(15);
       delay(50);
       ServoBrazo.write(10);
-      delay(250);
-      digitalWrite(LedEstado, LOW);
-      delay(500);
-      digitalWrite(LedEstado, HIGH);
-      delay(500);
-      digitalWrite(LedEstado, LOW);
-      delay(500);
-      digitalWrite(LedEstado, HIGH);
-      delay(500);
-      digitalWrite(LedEstado, LOW);
-      delay(500);
-      digitalWrite(LedEstado, HIGH);
+      Serial.println(10);
       delay(250);
       ServoBase.write(175);
       delay(50);
@@ -224,6 +220,7 @@ void loop() {
       ServoBase.write(95);
       delay(50);
       ServoBase.write(90);
+      Serial.println(90);
       delay(250);
       ServoBrazo.write(15);
       delay(50);
@@ -232,18 +229,49 @@ void loop() {
       ServoBrazo.write(25);
       delay(50);
       ServoBrazo.write(30);
-      delay(250);
+      Serial.println(30);
+    }
+    if (Dato == 'O') {
+      // Rutina 2
+    }
+    if (Dato == 'Z') {
+      digitalWrite(LedLinternaUno, HIGH);
+      digitalWrite(LedLinternaDos, HIGH);
+    } else if (Dato == 'X') {
+      digitalWrite(LedLinternaUno, LOW);
+      digitalWrite(LedLinternaDos, LOW);
+    }
+    if (Dato == 'E') {
       digitalWrite(LedEstado, LOW);
       delay(500);
       digitalWrite(LedEstado, HIGH);
+      digitalWrite(AlarmaEmergencia, HIGH);
       delay(500);
       digitalWrite(LedEstado, LOW);
+      digitalWrite(AlarmaEmergencia, LOW);
       delay(500);
       digitalWrite(LedEstado, HIGH);
+      digitalWrite(AlarmaEmergencia, HIGH);
       delay(500);
       digitalWrite(LedEstado, LOW);
+      digitalWrite(AlarmaEmergencia, LOW);
       delay(500);
       digitalWrite(LedEstado, HIGH);
+      digitalWrite(AlarmaEmergencia, HIGH);
+      delay(500);
+      digitalWrite(LedEstado, LOW);
+      digitalWrite(AlarmaEmergencia, LOW);
+      delay(500);
+      digitalWrite(LedEstado, HIGH);
+      digitalWrite(AlarmaEmergencia, HIGH);
+      delay(500);
+      digitalWrite(LedEstado, LOW);
+      digitalWrite(AlarmaEmergencia, LOW);
+      delay(500);
+      digitalWrite(LedEstado, HIGH);
+      digitalWrite(AlarmaEmergencia, HIGH);
+      delay(500);
+      digitalWrite(AlarmaEmergencia, LOW);
     }
   }
 }
